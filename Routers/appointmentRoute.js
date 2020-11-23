@@ -50,6 +50,9 @@ router.put('/add-status', async (req, res) => {
    }
 })
 
+router.get('/', (req, res) => {
+   res.send("Welcome to node app")
+})
 
 
 module.exports = router
