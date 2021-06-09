@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const bookAppointment = new mongoose.Schema({
-   name: {type: String},
+   patientName: {type: String},
    phone: {type: Number},
    email: {type: String},
    gender: {type: String},
    age: {type: Number},
    weight: {type: Number},
-   status: {type: String},
+   appointmentStatus: {type: String},
    appointment:{
       bookingDate: {type: String},
       visitingHour: {type: String},
@@ -24,5 +24,5 @@ const bookAppointment = new mongoose.Schema({
 {timestamps: true}
 );
 
-const AppointmentSchemaData = mongoose.model("AppointmentData", bookAppointment);
-module.exports = AppointmentSchemaData
+const AppointmentData = mongoose.model("AppointmentData", bookAppointment);
+module.exports = AppointmentData

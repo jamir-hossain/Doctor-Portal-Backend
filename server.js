@@ -10,7 +10,6 @@ app.use(cors())
 const {DBConnection} = require('./Database/dbConnection')
 DBConnection()
 
-
 // Appointment Route
 const appointmentRoute = require('./Routers/appointmentRoute')
 app.use('/', appointmentRoute)

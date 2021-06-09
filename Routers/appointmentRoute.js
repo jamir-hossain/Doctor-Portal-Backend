@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-const AppointmentSchemaData = require('../Models/bookAppointment')
+const AppointmentData = require('../Models/bookAppointment')
 
-// Post Appointment Data
+// Add an Appointment Data
 router.post('/appointment', async (req, res) => {
    try {
-      const appointment = new AppointmentSchemaData(req.body)
+      const appointment = new AppointmentData(req.body)
       await appointment.save()
       res.send(appointment)
    } catch (error) {
@@ -17,7 +17,7 @@ router.post('/appointment', async (req, res) => {
 // Get Appointment Data
 router.get('/get-appointments', async(req, res) => {
    try {
-      const allData = await AppointmentSchemaData.find()
+      const allData = await AppointmentData.find()
       res.send(allData)
    } catch (error) {
       res.status(404).send(error.message)
@@ -27,7 +27,7 @@ router.get('/get-appointments', async(req, res) => {
 // Post Prescription Data on Database
 router.put('/add-prescription', async (req, res) => {
    try {
-      const prescriptionData = await AppointmentSchemaData.findByIdAndUpdate({_id:req.body.patientId}, {
+      const prescriptionData = await AppointmentData.findByIdAndUpdate({_id:req.body.patientId}, {
          $push:{prescription:req.body.prescription}
       }, {new:true}
       )
@@ -40,7 +40,7 @@ router.put('/add-prescription', async (req, res) => {
 // Post Prescription Data on Database
 router.put('/add-status', async (req, res) => {
    try {
-      const Data = await AppointmentSchemaData.findByIdAndUpdate({_id:req.body.patientId}, {
+      const Data = await AppointmentData.findByIdAndUpdate({_id:req.body.patientId}, {
          status:req.body.status
       }, {new:true}
       )
