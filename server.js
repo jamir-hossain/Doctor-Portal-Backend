@@ -1,10 +1,11 @@
 const express = require('express')
 const cors = require('cors')
+const dotenv = require('dotenv')
 const app = express()
-require('dotenv').config()
 
 app.use(express.json())
 app.use(cors())
+dotenv.config()
 
 // Connecting Database with our server
 const {DBConnection} = require('./Database/dbConnection')
@@ -13,6 +14,14 @@ DBConnection()
 // Appointment Route
 const appointmentRoute = require('./Routers/appointmentRoute')
 app.use('/', appointmentRoute)
+
+// User Authentication Route
+const authRoute = require('./Routers/authRoute')
+app.use('/', authRoute)
+
+// User Profile Route
+const profileRoute = require('./Routers/profileRoute')
+app.use('/', profileRoute)
 
 
 // Patient Prescription Schema Data 
