@@ -1,19 +1,37 @@
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
+const admin = require("firebase-admin");
+const serviceAccount = require("../doctor-garden1-firebase-adminsdk-1x5xy-be52359f26.json");
+admin.initializeApp({
+   credential: admin.credential.cert(serviceAccount)
+});
+
 
 const checkSignInUser = async (req, res, next) => {
-   const {authorization} = req.headers
-   // console.log(authorization)
+   const { authorization } = req.headers
    if (authorization) {
-      try {
-         // Verify Token
-         const verified = await jwt.verify(authorization, process.env.JWT_SECRET)
-         req.user = verified
-         next()
-      } catch (error) {
-         res.send({error: 'You are not sign in user.'})
+      const decoded = jwtDecode(authorization)
+      if (decoded.firebase) {
+         admin.auth().verifyIdToken(authorization)
+            .then((decodedToken) => {
+               req.user = decodedToken
+               next()
+            })
+            .catch((error) => {
+               res.status(401).send({ error: error.message })
+            });
+      } else {
+         await jwt.verify(authorization, process.env.JWT_SECRET, async (error, decoded) => {
+            if (error.name === 'TokenExpiredError') {
+               res.status(401).send({ error: error.message })
+            } else {
+               req.user = decoded
+               next()
+            }
+         })
       }
    } else {
-      res.send({error: 'You are not sign in user.'})
+      res.send({ error: 'You are not sign in user.' })
    }
 }
 

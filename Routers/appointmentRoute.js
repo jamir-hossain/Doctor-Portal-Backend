@@ -1,13 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const AppointmentData = require('../Models/bookAppointment')
 
 const checkSignInUser = require('../Middleware/authMiddleware')
 const {
    updateStatus,
    addPrescription,
-   makeAppointment, 
-   getDoctorAppointment, 
+   makeAppointment,
+   getDoctorAppointment,
    getPatientAppointment,
 } = require('../RouteController/appointmentController')
 

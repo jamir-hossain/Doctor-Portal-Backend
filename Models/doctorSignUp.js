@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const doctor = new mongoose.Schema({
-   username: {
+   name: {
       type: String,
       required: true,
    },
@@ -29,8 +29,8 @@ const doctor = new mongoose.Schema({
       type: String,
       default: ''
    },
-   role: {type: String}
-}, {timestamps:true})
+   role: { type: String }
+}, { timestamps: true })
 
 
 const DoctorData = mongoose.model("Doctor", doctor)
