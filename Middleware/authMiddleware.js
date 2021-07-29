@@ -21,14 +21,13 @@ const checkSignInUser = async (req, res, next) => {
                res.status(401).send({ error: error.message })
             });
       } else {
-         await jwt.verify(authorization, process.env.JWT_SECRET, async (error, decoded) => {
-            if (error.name === 'TokenExpiredError') {
-               res.status(401).send({ error: error.message })
-            } else {
-               req.user = decoded
-               next()
-            }
-         })
+         try {
+            const decoded = await jwt.verify(authorization, process.env.JWT_SECRET)
+            req.user = decoded
+            next()
+         } catch (error) {
+            res.status(401).send({ error: error.message })
+         }
       }
    } else {
       res.send({ error: 'You are not sign in user.' })
